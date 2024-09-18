@@ -3,7 +3,7 @@
 
 # Node dependencies
 node_modules/
-
+.yarn/
 
 # Build artifacts
 out/
