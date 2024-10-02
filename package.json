@@ -72,7 +72,26 @@
         "command": "source-academy.eval-editor",
         "key": "shift+enter"
       }
-    ]
+    ],
+    "views": {
+      "source-academy": [
+        {
+          "id": "nodeDependencies",
+          "name": "Assessments",
+          "icon": "media/dep.svg",
+          "contextualTitle": "Package Explorer"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "source-academy",
+          "title": "Source Academy",
+          "icon": "assets/sa.svg"
+        }
+      ]
+    }
   },
   "scripts-info": {
     "build": "Builds all files required for the extension",
