@@ -1,0 +1,293 @@
+{
+  "scopeName": "source.source",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#restricted"
+    },
+    {
+      "include": "#import-directive"
+    },
+    {
+      "include": "#function"
+    },
+    {
+      "include": "#if"
+    },
+    {
+      "include": "#while"
+    },
+    {
+      "include": "#for"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#variables"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#restricted-operators"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.gml",
+          "match": "(//).*$\\n?"
+        },
+        {
+          "name": "comment.block.gml",
+          "begin": "/\\*",
+          "end": "\\*/",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.begin.gml"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.end.gml"
+            }
+          }
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.decimal.gml",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.boolean",
+          "match": "\\b(true|false)\\b"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double",
+          "match": "\".*\"",
+          "captures": [
+            {
+              "0": null,
+              "patterns": [
+                {
+                  "include": "#escape_sequences"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single",
+          "match": "'.*'",
+          "captures": [
+            {
+              "0": null,
+              "patterns": [
+                {
+                  "include": "#escape_sequences"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.other",
+          "begin": "`",
+          "end": "`",
+          "captures": [
+            {
+              "0": null,
+              "patterns": [
+                {
+                  "include": "#escape_sequences"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "escape_sequences": {
+      "patterns": [
+        {
+          "name": "constant.character.escape",
+          "match": "\\\\(?:[tv0bfnr'\"\\\\]|u[0-9a-fA-F]{4})"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable",
+          "match": "\\b[_$a-zA-Z][_$a-zA-Z0-9]*\\b"
+        }
+      ]
+    },
+    "function": {
+      "patterns": [
+        {
+          "name": "meta.function",
+          "begin": "(function)\\s?\\w+\\(\\w*\\)\\s?\\{",
+          "beginCaptures": {
+            "1": {
+              "name": "storage.type.function"
+            }
+          },
+          "end": "}"
+        }
+      ]
+    },
+    "if": {
+      "patterns": [
+        {
+          "name": "expression.group",
+          "begin": "(if)\\s*\\(.+\\)\\s*\\{",
+          "end": "}",
+          "beginCaptures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#keywords"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "while": {
+      "patterns": [
+        {
+          "name": "expression.group",
+          "begin": "(while)\\s*\\(.+\\)\\s*\\{",
+          "end": "}",
+          "beginCaptures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#keywords"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "for": {
+      "patterns": [
+        {
+          "name": "expression.group",
+          "begin": "(for)\\s*\\(.+\\)\\s*\\{",
+          "end": "}",
+          "beginCaptures": {
+            "1": {
+              "patterns": [
+                {
+                  "include": "#keywords"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "import-directive": {
+      "patterns": [
+        {
+          "match": "(import)\\s*\\{(\\s*\\w+(?:,\\s*\\w+)*\\s*)}\\s*(from)\\s+(['\"]\\w+['\"])\\s*;",
+          "name": "meta.import",
+          "captures": {
+            "1": {
+              "name": "keyword.control.import"
+            },
+            "2": {
+              "patterns": [
+                {
+                  "include": "#variables"
+                }
+              ]
+            },
+            "3": {
+              "name": "keyword.control.from"
+            },
+            "4": {
+              "patterns": [
+                {
+                  "include": "#strings"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "match": "from",
+          "name": "invalid.illegal"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword",
+          "match": "\\b(import|from|as|const|function|return|debugger|if|else|true|false)\\b"
+        },
+        {
+          "name": "keyword.post-s2",
+          "match": "\\b(null)\\b"
+        },
+        {
+          "name": "keyword.post-s3",
+          "match": "\\b(break|continue|for|let|while)\\b"
+        }
+      ]
+    },
+    "restricted": {
+      "patterns": [
+        {
+          "name": "invalid.illegal",
+          "match": "\\b(arguments|await|case|catch|class|default|delete|do|enum|eval|export|extends|finally|implements|in|instanceof|interface|new|null|package|private|protected|public|static|super|switch|this|throw|try|typeof|var|void|with|yield)\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "comment",
+          "match": "(\\+|-|\\*|/|%|===|!==|>|<|>=)"
+        }
+      ]
+    },
+    "restricted-operators": {
+      "patterns": [
+        {
+          "name": "invalid",
+          "match": "==|!=|&|\\||>>|<<"
+        }
+      ]
+    }
+  }
+}

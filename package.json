@@ -28,7 +28,20 @@
           "description": "URL to the Source Academy frontend"
         }
       }
-    }
+    },
+    "languages": [
+      {
+        "id": "source",
+        "extensions": [".sjs"]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "source",
+        "scopeName": "source.source",
+        "path": "./syntaxes/source.tmLanguage.json"
+      }
+    ]
   },
   "scripts-info": {
     "compile": "Build bundles",
