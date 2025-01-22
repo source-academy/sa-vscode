@@ -199,19 +199,19 @@ repository:
         begin: (?<=>)(?=[^;]*\{)
         end: (?<=\})
         patterns:
-          - include: '#comment'
-          - include: '#block'
+          - include: "#comment"
+          - include: "#block"
       - name: meta.arrow
 
   paren-expression:
     begin: \(
     beginCaptures:
-      '0': { name: meta.brace.round.ts }
+      "0": { name: meta.brace.round.ts }
     end: \)
     endCaptures:
-      '0': { name: meta.brace.round.ts }
+      "0": { name: meta.brace.round.ts }
     patterns:
-    - include: '#expression'
+      - include: "#expression"
 
   operators:
     patterns:
@@ -262,14 +262,14 @@ repository:
           "1": { name: keyword.control.conditional }
           "2": { patterns: [{ include: "#expression" }] }
         patterns:
-          - include: '#statement'
+          - include: "#statement"
       - name: expression.group
         begin: (else)\s*\{
         end: "}"
         beginCaptures:
           "1": { name: keyword.control.conditional }
         patterns:
-          - include: '#statement'
+          - include: "#statement"
       # Match keywords even if overall structure is invalid
       - name: keyword.control.conditional
         match: \b(if|else)\b
@@ -283,7 +283,7 @@ repository:
           "1": { name: keyword.control.loop }
           "2": { patterns: [{ include: "#expression" }] }
         patterns:
-          - include: '#statement'
+          - include: "#statement"
 
   for:
     patterns:
@@ -294,4 +294,4 @@ repository:
           "1": { name: keyword.control.loop }
           "2": { patterns: [{ include: "#expression" }] }
         patterns:
-          - include: '#statement'
+          - include: "#statement"
