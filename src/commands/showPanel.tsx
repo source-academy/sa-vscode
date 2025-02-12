@@ -32,7 +32,23 @@ async function handleMessage(
     console.log(`${Date.now()} Beginning handleMessage: ${message.type}`);
     switch (message.type) {
       case MessageTypeNames.ExtensionPing:
-        panel!.webview.postMessage(Messages.ExtensionPong());
+        let state = context.globalState.get("token") ?? null;
+
+        const token = state ? JSON.stringify(state) : null;
+
+        console.log(`WebviewStarted: Obtain token from VSC: ${token}`);
+
+        // if (token !== null && Object.keys(token).length === 0) {
+        //   token = null
+        // }
+        // if (token !== null) {
+        //   token = JSON.stringify(token);
+        // }
+
+        panel!.webview.postMessage(Messages.ExtensionPong(token));
+        if (token) {
+          context.globalState.update("token", undefined);
+        }
         break;
       case MessageTypeNames.NewEditor:
         activeEditor = await Editor.create(

@@ -9,7 +9,7 @@ const Messages = createMessages({
   /** Sent from the iframe to the extension */
   ExtensionPing: () => ({}),
   /** Sent from the extension to the iframe */
-  ExtensionPong: () => ({}),
+  ExtensionPong: (token: string | null) => ({ token }),
   IsVsc: () => ({}),
   NewEditor: (assessmentName: string, questionId: number, code: string) => ({
     assessmentName,
@@ -62,8 +62,8 @@ type KeysUnion<T> = keyof T extends string ? keyof T : never;
 type MessageTypeNames = KeysUnion<MessageTypes>;
 export const MessageTypeNames = Object.freeze(
   Object.fromEntries(
-    Object.keys({} as MessageTypes).map(key => [key, key])
-  ) as { [K in MessageTypeNames]: K }
+    Object.keys({} as MessageTypes).map((key) => [key, key]),
+  ) as { [K in MessageTypeNames]: K },
 );
 
 // ================================================================================
