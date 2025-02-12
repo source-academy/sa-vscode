@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 // Allow using JSX within this file by overriding our own createElement function
 import React from "../utils/FakeReact";
 
-import Messages, { MessageType } from "../utils/messages";
+import Messages, { MessageType, MessageTypeNames } from "../utils/messages";
 import { LANGUAGES } from "../utils/languages";
 import { setWebviewContent } from "../utils/webview";
 import config from "../utils/config";
@@ -17,7 +17,10 @@ let activeEditor: Editor | null = null;
 const messageQueue: MessageType[] = [];
 let handling = false;
 
-async function handleMessage(message: MessageType) {
+async function handleMessage(
+  context: vscode.ExtensionContext,
+  message: MessageType,
+) {
   messageQueue.push(message);
   if (handling) {
     return;
@@ -28,10 +31,10 @@ async function handleMessage(message: MessageType) {
     const message = messageQueue.shift()!;
     console.log(`${Date.now()} Beginning handleMessage: ${message.type}`);
     switch (message.type) {
-      case "WebviewStarted":
-        panel!.webview.postMessage(Messages.WebviewStarted());
+      case MessageTypeNames.ExtensionPing:
+        panel!.webview.postMessage(Messages.ExtensionPong());
         break;
-      case "NewEditor":
+      case MessageTypeNames.NewEditor:
         activeEditor = await Editor.create(
           message.assessmentName,
           message.questionId,
@@ -54,7 +57,7 @@ async function handleMessage(message: MessageType) {
           panel!.webview.postMessage(message);
         });
         break;
-      case "Text":
+      case MessageTypeNames.Text:
         if (!activeEditor) {
           console.log("ERROR: activeEditor is not set");
           break;
@@ -87,7 +90,7 @@ export async function showPanel(context: vscode.ExtensionContext) {
   );
 
   panel.webview.onDidReceiveMessage(
-    handleMessage,
+    (message: MessageType) => handleMessage(context, message),
     undefined,
     context.subscriptions,
   );
