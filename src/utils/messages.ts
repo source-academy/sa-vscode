@@ -58,13 +58,20 @@ type MessageTypes = {
 export type MessageType = MessageTypes[keyof MessageTypes];
 
 // Also define MessageTypeNames as an "enum" to avoid hardcoding strings
-type KeysUnion<T> = keyof T extends string ? keyof T : never;
-type MessageTypeNames = KeysUnion<MessageTypes>;
-export const MessageTypeNames = Object.freeze(
-  Object.fromEntries(
-    Object.keys({} as MessageTypes).map((key) => [key, key]),
-  ) as { [K in MessageTypeNames]: K },
-);
+export const MessageTypeNames = (() =>
+  ({
+    ...Object.keys(Messages)
+      .filter((k) => isNaN(Number(k)))
+      .reduce(
+        (acc, cur) => ({
+          ...acc,
+          [cur]: cur,
+        }),
+        {},
+      ),
+  }) as {
+    [k in keyof typeof Messages]: k;
+  })();
 
 // ================================================================================
 // Wrapper functions
