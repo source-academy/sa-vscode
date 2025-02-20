@@ -41,7 +41,9 @@
     "languages": [
       {
         "id": "source",
-        "extensions": [".sjs"]
+        "extensions": [
+          ".sjs"
+        ]
       }
     ],
     "grammars": [
