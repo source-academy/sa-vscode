@@ -4,6 +4,7 @@ import * as vscode from "vscode";
 import { showPanel } from "./commands/showPanel";
 import { runLanguagePicker } from "./commands/language";
 import { setupStatusBar } from "./statusbar/status";
+import { login } from "./commands/login";
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -14,9 +15,18 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("sa-vscode.show-panel", () =>
       showPanel(context),
     ),
+    vscode.commands.registerCommand("sa-vscode.login", () => login(context)),
   );
 
   context.subscriptions.push(setupStatusBar(context));
+  vscode.window.registerUriHandler({
+    handleUri(uri: vscode.Uri) {
+      const searchParams = new URLSearchParams(uri.query);
+      const token = searchParams.get("token");
+      vscode.window.showInformationMessage(`Deplink: ${token}`);
+      context.globalState.update("token", token);
+    },
+  });
 }
 // This method is called when your extension is deactivated
 export function deactivate() {}

@@ -22,7 +22,7 @@ function createMessages<T extends Record<string, (...args: any[]) => object>>(
 }
 
 const Messages = createMessages({
-  WebviewStarted: () => ({}),
+  WebviewStarted: (token: string | null) => ({ token }),
   IsVsc: () => ({}),
   NewEditor: (assessmentName: string, questionId: number, code: string) => ({
     assessmentName,

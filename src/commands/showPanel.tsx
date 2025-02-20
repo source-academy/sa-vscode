@@ -17,7 +17,10 @@ let activeEditor: Editor | null = null;
 const messageQueue: MessageType[] = [];
 let handling = false;
 
-async function handleMessage(message: MessageType) {
+async function handleMessage(
+  context: vscode.ExtensionContext,
+  message: MessageType,
+) {
   messageQueue.push(message);
   if (handling) {
     return;
@@ -29,7 +32,13 @@ async function handleMessage(message: MessageType) {
     console.log(`${Date.now()} Beginning handleMessage: ${message.type}`);
     switch (message.type) {
       case "WebviewStarted":
-        panel!.webview.postMessage(Messages.WebviewStarted());
+        const refreshToken =
+          (context.globalState.get("token") as string) ?? null;
+        console.log(`WebviewStarted: Obtain token from VSC: ${refreshToken}`);
+        panel!.webview.postMessage(Messages.WebviewStarted(refreshToken));
+        if (refreshToken) {
+          context.globalState.update("token", undefined);
+        }
         break;
       case "NewEditor":
         activeEditor = await Editor.create(
@@ -87,7 +96,7 @@ export async function showPanel(context: vscode.ExtensionContext) {
   );
 
   panel.webview.onDidReceiveMessage(
-    handleMessage,
+    (message: MessageType) => handleMessage(context, message),
     undefined,
     context.subscriptions,
   );

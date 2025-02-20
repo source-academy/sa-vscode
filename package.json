@@ -1,8 +1,13 @@
 {
   "name": "sa-vscode",
+  "publisher": "heyzec",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/source-academy/sa-vscode"
+  },
   "engines": {
-    "vscode": "^1.84.2"
+    "vscode": "^1.93.0"
   },
   "main": "./out/extension.js",
   "activationEvents": [
@@ -17,6 +22,10 @@
       {
         "command": "sa-vscode.show-panel",
         "title": "Source Academy: Show the Source Academy panel"
+      },
+      {
+        "command": "sa-vscode.login",
+        "title": "Source Academy: Login"
       }
     ],
     "configuration": {
