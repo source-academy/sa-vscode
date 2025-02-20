@@ -22,9 +22,12 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.window.registerUriHandler({
     handleUri(uri: vscode.Uri) {
       const searchParams = new URLSearchParams(uri.query);
-      const token = searchParams.get("token");
-      vscode.window.showInformationMessage(`Deplink: ${token}`);
-      context.globalState.update("token", token);
+      const accessToken = searchParams.get("access_token");
+      vscode.window.showInformationMessage(`Access: ${accessToken}`);
+      const refreshToken = searchParams.get("refresh_token");
+      vscode.window.showInformationMessage(`Refresh: ${refreshToken}`);
+
+      context.globalState.update("token", { accessToken, refreshToken });
     },
   });
 }
