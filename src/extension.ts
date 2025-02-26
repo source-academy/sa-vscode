@@ -21,15 +21,13 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(setupStatusBar(context));
   vscode.window.registerUriHandler({
     handleUri(uri: vscode.Uri) {
-      vscode.window.showInformationMessage(`HANDLEING`);
-      return;
-      // const searchParams = new URLSearchParams(uri.query);
-      // const accessToken = searchParams.get("access_token");
-      // vscode.window.showInformationMessage(`Access: ${accessToken}`);
-      // const refreshToken = searchParams.get("refresh_token");
-      // vscode.window.showInformationMessage(`Refresh: ${refreshToken}`);
+      const searchParams = new URLSearchParams(uri.query);
+      const accessToken = searchParams.get("access_token");
+      vscode.window.showInformationMessage(`Access: ${accessToken}`);
+      const refreshToken = searchParams.get("refresh_token");
+      vscode.window.showInformationMessage(`Refresh: ${refreshToken}`);
 
-      // context.globalState.update("token", { accessToken, refreshToken });
+      context.globalState.update("token", { accessToken, refreshToken });
     },
   });
 }
