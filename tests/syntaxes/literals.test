@@ -1,0 +1,117 @@
+// SYNTAX TEST "source.source" "literals"
+
+/* ====================
+Primitives and literals
+==================== */
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#data_structures_and_types
+// Primitive: Data that is not an object
+// Literal: Values that are written exactly as they are
+
+// PRIMITIVE BOOLEAN EXPRESSIONS
+true
+// <---- constant.language.boolean.true
+false
+// <----- constant.language.boolean.false
+
+// PRIMITIVE NULL (primitive list expression in Source)
+null
+// <--- constant.language.null
+
+
+// PRIMITIVE NUMBER EXPRESSIONS
+// Examples from Source spec
+5432
+// <---- constant.numeric.integer.decimal
+-5432.109
+// <~-------- constant.numeric.integer.decimal
+-43.21e-45
+// <~--------- constant.numeric.integer.decimal
+// Examples from TS Textmate grammar
+1.1E+3
+1.E+3
+.1E+3
+1E+3
+1.1
+1.
+.1
+1
+// Nonexamples
+// TODO
+// @ts-nocheck
+1x x1 0x12 0xFF 0xGG 0o11 0b11
+
+// Source spec does not allow underscore separators
+   1_000_000
+//  ^   ^    - constant.numeric.integer.decimal
+
+// PRIMITIVE STRING EXPRESSIONS
+// Valid double quoted strings
+"hello"
+// <------- string.quoted.double
+"hello world"
+// <------- string.quoted.double
+""
+// <-- string.quoted.double
+
+// Non-valid: contains newline
+"
+hello"
+
+// Valid single quoted strings
+'hello'
+// <------- string.quoted.single
+'hello world'
+// <------- string.quoted.single
+''
+// <-- string.quoted.single
+
+// Non-valid: contains newline
+'
+hello'
+
+// Valid backtick quoted strings
+`hello`
+// <------- string.quoted.other
+`hello world` ``
+
+// Valid: contains newline
+`
+hello`
+// <------ string.quoted.other
+
+`
+hello
+world
+`
+// <- string.quoted.other
+
+// Valid escape sequences
+   "\t \v \0 \b \f \n \r \' \" \\"
+// ^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//  ^^ ^^ ^^ ^^ ^^ ^^ ^^ ^^ ^^ ^^ constant.character.escape
+
+   "\uD83D\uDC04"
+// ^^^^^^^^^^^^^^ string.quoted.double
+//  ^^^^^^^^^^^^ constant.character.escape
+
+// Unrecognised escape sequences
+"\1" "\!" "\@" "\$" "\%" "\^" "\&" "\*"
+//  ^^ ^^ ^^ ^^ ^^ ^^ ^^ ^^ ^^ ^^ - constant.character.escape
+
+// EDGE CASES
+// undefined is a JS primitive of its own data type, but a imported value in Source
+undefined
+
+// NaN and Infinity are JS primitives as part of the Number data type, and also an imported value in Source
+NaN
+Infinity
+
+// Invalid: Regex literals
+   /ab+c/g
+// ^^^^^^^ invalid.illegal.string.regexp
+
+// Invalid: BigInt literals
+   10n
+//   ^ invalid.illegal.storage.type.numeric.bigint
+   1n
+//  ^ invalid.illegal.storage.type.numeric.bigint

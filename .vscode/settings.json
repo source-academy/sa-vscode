@@ -1,5 +1,11 @@
 {
   "files.exclude": {
     "frontend": true
+  },
+  // Workaround to stop tsserver from checking TextMate syntax highlighting related tests
+  // and showing syntax errors
+  // See also https://github.com/microsoft/TypeScript/issues/50587
+  "files.associations": {
+    "**/tests/syntaxes/*.test": "coffeescript"
   }
 }

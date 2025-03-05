@@ -482,6 +482,10 @@
         {
           "name": "keyword.operator.arithmetic",
           "match": "\\+|-|\\*|/|%"
+        },
+        {
+          "name": "keyword.operator.assignment",
+          "match": "\\="
         }
       ]
     },

@@ -1,0 +1,113 @@
+// SYNTAX TEST "source.source" "operators"
+
+/* ====================
+Operators
+==================== */
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_operators
+// In JS, TextMate does not differentiate between unary and binary operators
+
+// COMPARISON OPERATORS
+x1 == x2                           // Equal             INVALID
+// ^^ invalid.illegal.keyword.operator.comparison
+x1 != x2                           // Not equal         INVALID
+// ^^ invalid.illegal.keyword.operator.comparison
+x1 === x2                          // Strict equal
+// ^^ keyword.operator.comparison
+x1 !== x2                          // Strict not equal
+// ^^^ keyword.operator.comparison
+x1 > x2                            // Greater than
+// ^ keyword.operator.relational
+x1 < x2                            // Less than
+// ^ keyword.operator.relational
+x1 >= x2                           // Greater than or equal
+// ^^ keyword.operator.relational
+x1 <= x2                           // Less than or equal
+// ^^ keyword.operator.relational
+
+// ARITHMETIC OPERATORS
+x1 + x2                            // Addition
+// ^ keyword.operator.arithmetic
+x1 - x2                            // Subtraction
+// ^ keyword.operator.arithmetic
+x1 * x2                            // Multiplication
+// ^ keyword.operator.arithmetic
+x1 / x2                            // Division
+// ^ keyword.operator.arithmetic
+x1 % x2                            // Remainder
+// ^ keyword.operator.arithmetic
+x1++                               // Increment         INVALID
+// <~~-- invalid.illegal.keyword.operator.increment
+x1--                               // Decrement         INVALID
+// <~~-- invalid.illegal.keyword.operator.decrement
+-x                                 // Unary negation
+// <- keyword.operator.arithmetic
++x                                 // Unary plus
+// <- keyword.operator.arithmetic
+x1 ** x2                           // Exponentiation    INVALID
+// ^^ invalid.illegal.keyword.operator.arithmetic
+
+// LOGICAL OPERATORS
+x1 && x2                           // Logical AND
+// ^^ keyword.operator.logical
+x1 || x2                           // Logical OR
+// ^^ keyword.operator.logical
+x1 ?? x2                           // Nullish coalescing operator      INVALID
+// ^^ invalid.illegal.keyword.operator.logical
+!x                                 // Logical NOT
+// <- keyword.operator.logical
+
+// BITWISE OPERATORS
+// Bitwise logical operators
+x1 & x2                            // Bitwise AND                      INVALID
+// ^ invalid.illegal.keyword.operator.bitwise
+x1 | x2                            // Bitwise OR                       INVALID
+// ^ invalid.illegal.keyword.operator.bitwise
+x1 ^ x2                            // Bitwise XOR                      INVALID
+// ^ invalid.illegal.keyword.operator.bitwise
+~x                                 // Bitwise NOT                      INVALID
+// <- invalid.illegal.keyword.operator.bitwise
+// Bitwise shift operators
+x1 << x2                           // Left shift
+// ^^ invalid.illegal.keyword.operator.bitwise.shift
+x1 >> x2                           // Sign-propagating right shift     INVALID
+// ^^ invalid.illegal.keyword.operator.bitwise.shift
+x1 >>> x2                          // Zero-fill right shift            INVALID
+// ^^^ invalid.illegal.keyword.operator.bitwise.shift
+
+// ASSIGNMENT OPERATORS
+x1 = x2                            // Assignment
+// ^ keyword.operator.assignment
+x1 += x2                           // Addition assignment              INVALID
+// ^^ invalid.illegal.keyword.operator.assignment.compound
+x1 -= x2                           // Subtraction assignment           INVALID
+// ^^ invalid.illegal.keyword.operator.assignment.compound
+x1 *= x2                           // Multiplication assignment        INVALID
+// ^^ invalid.illegal.keyword.operator.assignment.compound
+x1 /= x2                           // Division assignment              INVALID
+// ^^ invalid.illegal.keyword.operator.assignment.compound
+x1 %= x2                           // Remainder assignment             INVALID
+// ^^ invalid.illegal.keyword.operator.assignment.compound
+x1 **= x2                          // Exponentiation assignment        INVALID
+// ^^^ invalid.illegal.keyword.operator.assignment.compound
+x1 &&= x2                          // Logical AND assignment           INVALID
+// ^^^ invalid.illegal.keyword.operator.assignment.compound.logical
+x1 ||= x2                          // Logical OR assignment            INVALID
+// ^^^ invalid.illegal.keyword.operator.assignment.compound.logical
+x1 ??= x2                          // Nullish coalescing assignment    INVALID
+// ^^ invalid.illegal.keyword.operator.assignment.compound.logical
+x1 &= x2                           // Bitwise AND assignment           INVALID
+// ^^ invalid.illegal.keyword.operator.assignment.compound.bitwise
+x1 |= x2                           // Bitwise OR assignment            INVALID
+// ^^ invalid.illegal.keyword.operator.assignment.compound.bitwise
+x1 ^= x2                           // Bitwise XOR assignment           INVALID
+// ^^ invalid.illegal.keyword.operator.assignment.compound.bitwise
+x1 <<= x2                          // Left shift assignment            INVALID
+// ^^^ invalid.illegal.keyword.operator.assignment.compound.bitwise
+x1 >>= x2                          // Right shift assignment           INVALID
+// ^^^ invalid.illegal.keyword.operator.assignment.compound.bitwise
+x1 >>>= x2                         // Unsigned right shift assignment  INVALID
+// ^^^ invalid.illegal.keyword.operator.assignment.compound.bitwise
+
+// EDGE CASES
+x1 <> x2                           // Not equal
+// ^^ invalid.illegal.keyword.operator.relational

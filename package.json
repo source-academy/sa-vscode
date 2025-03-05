@@ -54,7 +54,9 @@
     "compile": "node ./esbuild.js",
     "format": "yarn prettier . --write",
     "vscode:prepublish": "yarn run compile",
-    "watch": "node ./esbuild.js --watch"
+    "watch": "node ./esbuild.js --watch",
+    "test:syntax": "vscode-tmgrammar-test ./tests/syntaxes/*",
+    "test": "yarn test:syntax"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.9",
@@ -65,7 +67,8 @@
     "esbuild": "^0.23.1",
     "husky": "^8.0.0",
     "prettier": "^3.3.3",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vscode-tmgrammar-test": "^0.1.3"
   },
   "dependencies": {
     "@blueprintjs/core": "^5.13.0",

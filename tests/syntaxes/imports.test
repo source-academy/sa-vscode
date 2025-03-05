@@ -1,0 +1,43 @@
+// SYNTAX TEST "source.source" "imports"
+
+/* ====================
+Imports
+==================== */
+// Valid import directive
+import { react } from 'react';
+// <----------------------------- meta.import
+// <------ keyword.control.import
+//               ^^^^ keyword.control.from
+//                    ^^^^^^^ string.quoted.single
+
+// Multi-line import directive with comments
+import
+// <------ meta.import
+// <------ keyword.control.import
+// comment1
+// <----------- meta.import
+// <----------- comment.line.double-slash
+{ sail }
+// <-------- meta.import
+/* comment2 */
+// <-------------- meta.import
+// <-------------- comment.block
+from
+// <---- meta.import
+// <---- keyword.control.from
+'rune';
+// <------ meta.import
+// <------ string.quoted.single
+
+// HIGHLIGHTING MALFORMED CODE
+
+// In JS, a dangling from without import will not be highlighted
+from;
+
+// We highlight import even if the whole statement is invalid
+import;
+// <------ keyword.control.import
+
+// Invalid within import-names
+import { a a } a from 'react';
+import from react;
