@@ -30,7 +30,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(setupStatusBar(context));
 
   const serverModule = context.asAbsolutePath(
-		path.join('server', 'server.js')
+		path.join('server', 'out', 'server.js')
 	);
 
 	// If the extension is launched in debug mode then the debug server options are used
