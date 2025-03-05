@@ -6,6 +6,7 @@ node_modules/
 
 # Build artifacts
 out/
+!server/out
 
 # Logs
 yarn-error.log
