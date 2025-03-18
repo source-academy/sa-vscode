@@ -36,7 +36,23 @@ async function handleMessage(
     console.log(`${Date.now()} Beginning handleMessage: ${message.type}`);
     switch (message.type) {
       case MessageTypeNames.ExtensionPing:
-        sendToFrontend(panel, Messages.ExtensionPong(null));
+        let state = context.globalState.get("token") ?? null;
+
+        const token = state ? JSON.stringify(state) : null;
+
+        console.log(`WebviewStarted: Obtain token from VSC: ${token}`);
+
+        // if (token !== null && Object.keys(token).length === 0) {
+        //   token = null
+        // }
+        // if (token !== null) {
+        //   token = JSON.stringify(token);
+        // }
+
+        panel!.webview.postMessage(Messages.ExtensionPong(token));
+        if (token) {
+          context.globalState.update("token", undefined);
+        }
         break;
       case MessageTypeNames.NewEditor:
         activeEditor = await Editor.create(
@@ -56,8 +72,10 @@ async function handleMessage(
           }
           if (editor !== activeEditor) {
             console.log(
-              `EXTENSION: Editor ${editor.assessmentName}_${editor.questionId} is no longer active, skipping onChange`,
+              `EXTENSION: Editor is no longer active, skipping onChange`,
+              `User edited ${editor.assessmentName}_${editor.questionId}, active is ${activeEditor?.assessmentName}_${activeEditor?.questionId}`,
             );
+            return;
           }
           const message = Messages.Text(workspaceLocation, code);
           console.log(`Sending message: ${JSON.stringify(message)}`);
@@ -78,7 +96,8 @@ async function handleMessage(
   handling = false;
 }
 
-export async function showPanel(context: vscode.ExtensionContext) {
+export async function showPanel(context: vscode.ExtensionContext, url: string) {
+  vscode.window.showInformationMessage(`showPanel caleld with ${url}`);
   let language: string | undefined = context.workspaceState.get("language");
   if (!language) {
     language = LANGUAGES.SOURCE_1;
@@ -117,7 +136,8 @@ export async function showPanel(context: vscode.ExtensionContext) {
     >
       <iframe
         id={FRONTEND_ELEMENT_ID}
-        src={frontendUrl}
+        src={url || frontendUrl}
+        // src={"vscode://source-academy.source-academy/sso"}
         width="100%"
         height="100%"
         // @ts-ignore

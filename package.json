@@ -31,6 +31,10 @@
       {
         "command": "source-academy.eval-editor",
         "title": "Source Academy: Run Code in Editor"
+      },
+      {
+        "command": "source-academy.login",
+        "title": "Source Academy: Login"
       }
     ],
     "configuration": {

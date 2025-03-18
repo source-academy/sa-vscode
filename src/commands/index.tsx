@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import { runLanguagePicker } from "./language";
 import { evalEditor } from "./evalEditor";
 import { showPanel } from "./showPanel";
+import { login } from "./login";
 
 const EXTENSION_ID = "source-academy";
 
@@ -12,6 +13,7 @@ const EXTENSION_ID = "source-academy";
 const commands = (context: vscode.ExtensionContext) => ({
   pick: () => runLanguagePicker(context),
   "show-panel": () => showPanel(context),
+  login: () => login(context),
   "eval-editor": () => evalEditor(context),
 });
 
