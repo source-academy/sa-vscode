@@ -3,10 +3,10 @@
 // Ideally it is split into multiple files, but for ease of copying, it is kept as one file.
 
 /** A subset of the WorkspaceLocation type found in source-academy/frontend */
-const VscWorkspaceLocationArray = ["assessment", "playground"];
+const VscWorkspaceLocationArray = ["assessment", "playground", "sicp"];
 export const isVscWorkspaceLocation = (s: any) =>
   VscWorkspaceLocationArray.includes(s);
-export type VscWorkspaceLocation = "assessment" | "playground";
+export type VscWorkspaceLocation = "assessment" | "playground" | "sicp";
 
 // ================================================================================
 // Message type definitions
