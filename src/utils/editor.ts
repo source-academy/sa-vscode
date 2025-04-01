@@ -77,6 +77,7 @@ export class Editor {
     );
 
     self.editor = editor;
+    // TODO: Restructure Editor-related code so that only active editor has listener
     vscode.workspace.onDidChangeTextDocument(() => {
       if (!self.onChangeCallback) {
         return;
