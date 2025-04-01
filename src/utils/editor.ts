@@ -71,7 +71,7 @@ export class Editor {
     const editor = await vscode.window.showTextDocument(
       vscode.Uri.file(filePath),
       {
-        preview: false,
+        preview: true,
         viewColumn: vscode.ViewColumn.One,
       },
     );
