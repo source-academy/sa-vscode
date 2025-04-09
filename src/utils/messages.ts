@@ -34,7 +34,7 @@ const Messages = createMessages({
     code,
   }),
   EvalEditor: (workspaceLocation: VscWorkspaceLocation) => ({
-    workspaceLocation: workspaceLocation,
+    workspaceLocation,
   }),
 });
 
@@ -96,6 +96,7 @@ export const MessageTypeNames = (() =>
 // Wrapper functions
 // ================================================================================
 
+// TODO: Rename this as sendToExtension
 /**
  * API to send a Message to the VSC extension.
  * To only be used within source-academy/frontend.

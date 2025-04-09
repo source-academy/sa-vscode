@@ -34,8 +34,8 @@ async function build() {
   const url = `https://github.com/mug1wara26/source-lsp/releases/download/v${version}/${lspFilename}`;
   const outputPath = path.join(outputFolder, lspFilename); // Save in the same directory
   // Function below handles the 302 Found redirection from GitHub
-  await downloadFile(url, outputPath);
-  console.log("LSP server downloaded.");
+  // await downloadFile(url, outputPath);
+  // console.log(`LSP server downloaded from ${url}`);
 }
 
 /**
@@ -51,6 +51,7 @@ function downloadFile(url, outputPath) {
       });
     }
     function onError(err) {
+      console.log(`Error: ${err.message}`);
       fs.unlink(outputPath, () => {
         reject(err);
       });
@@ -58,18 +59,23 @@ function downloadFile(url, outputPath) {
 
     https
       .get(url, (res) => {
+        console.log(`Response status code: ${res.statusCode}`);
         if (res.statusCode >= 200 && res.statusCode < 300) {
           if (res.statusCode !== 200) {
             console.log("Warn: Status code is not 200");
           }
           onSuccess(res);
-        }
-        if (res.statusCode === 301 || res.statusCode === 302) {
+        } else if (res.statusCode === 301 || res.statusCode === 302) {
+          console.log(`Redirecting to ${res.headers.location}`);
           https
             .get(res.headers.location, (res) => {
+              // TODO: There needs to be second check here
+              console.log(`Response status code: ${res.statusCode}`);
               onSuccess(res);
             })
             .on("error", onError);
+        } else {
+          console.log(`Error: ${res.statusCode}`);
         }
       })
       .on("error", onError);
