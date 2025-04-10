@@ -11,7 +11,7 @@ import {
 import { /* commands, */ window } from "vscode";
 
 let client: LanguageClient;
-// const SECTION = "\u00A7";
+const SECTION = "\u00A7";
 
 export function activateLspClient(context: ExtensionContext) {
   // The server is implemented in node
@@ -50,6 +50,19 @@ export function activateLspClient(context: ExtensionContext) {
 
   // Start the client. This will also launch the server
   client.start();
+
+  const version = `Source ${SECTION}4`;
+
+  (async function () {
+    try {
+      const response = await client.sendRequest("setLanguageVersion", {
+        version,
+      });
+      window.showInformationMessage(`Language version set to ${version}`);
+    } catch (error) {
+      window.showErrorMessage(`Failed to set language version: ${error}`);
+    }
+  })();
 
   // TODO: Combine this functionality with existing language selector
   // context.subscriptions.push(
