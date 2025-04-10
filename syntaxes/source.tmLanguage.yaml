@@ -57,6 +57,7 @@ repository:
   expression:
     patterns:
       - include: "#arrow-function"
+      - include: "#function-call"
       - include: "#literal"
       - include: "#identifier"
       - include: "#string"
@@ -100,9 +101,11 @@ repository:
   function-declaration:
     patterns:
       - name: meta.function
-        begin: (function)\s?\w+\(\w*\)\s?\{
+        begin: (function)\s?(\w+)\((\w*)\)\s?\{
         beginCaptures:
           "1": { name: storage.type.function }
+          "2": { name: entity.name.function }
+          "3": { patterns: [{ include: "#identifier" }] }
         end: "}"
         patterns:
           - include: "#statement"
@@ -202,6 +205,24 @@ repository:
           - include: "#comment"
           - include: "#block"
       - name: meta.arrow
+
+  function-call:
+    patterns:
+      - name: meta.function-call
+        match: (\w+)\((.+)\)
+        captures:
+          "1": { name: entity.name.function }
+          "2": { patterns: [{ include: "#expression" }] }
+      - name: meta.function-call
+        begin: (\w+)(\()
+        beginCaptures:
+          "0": { name: entity.name.function }
+          "1": { name: meta.brace.round }
+        end: \)
+        endCaptures:
+          "0": { name: meta.brace.round }
+        patterns:
+          - include: "#expression"
 
   paren-expression:
     begin: \(
