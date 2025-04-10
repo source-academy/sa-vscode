@@ -70,14 +70,18 @@
     ]
   },
   "scripts-info": {
-    "build": "Builds/obtains bundles required for the extension",
+    "build": "Builds all files required for the extension",
+    "build:extension": "Builds/obtains JS bundles required for the extension",
+    "build:syntax": "Converts the syntax definitions from YAML to JSON",
     "watch": "Rebuild source code in this repo on change",
     "format": "Format source code",
     "vscode:prepublish": "Step called by vsce before packaging/publishing (VSC's convention)",
     "package": "Package the extension into .vsix format"
   },
   "scripts": {
-    "build": "node scripts/build.js",
+    "build": "yarn run build:extension && yarn run build:syntax",
+    "build:extension": "node scripts/build.js",
+    "build:syntax": "js-yaml syntaxes/source.tmLanguage.yaml > syntaxes/source.tmLanguage.json",
     "watch": "node ./esbuild.js --watch",
     "format": "yarn prettier . --write",
     "vscode:prepublish": "yarn run build",
@@ -93,6 +97,7 @@
     "@vscode/vsce": "^3.2.2",
     "esbuild": "^0.25.0",
     "husky": "^8.0.0",
+    "js-yaml": "^4.1.0",
     "prettier": "^3.3.3",
     "typescript": "^5.6.2",
     "vscode-tmgrammar-test": "^0.1.3"
