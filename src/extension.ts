@@ -17,20 +17,35 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(setupStatusBar(context));
 
   activateLspClient(context);
-  vscode.window.registerUriHandler({
-    handleUri(uri: vscode.Uri) {
-      const searchParams = new URLSearchParams(uri.query);
-      const code = searchParams.get("code");
-      vscode.window.showInformationMessage(`Code: ${code}`);
-      const provider = searchParams.get("provider");
-      vscode.window.showInformationMessage(`Provider: ${provider}`);
 
-      // context.globalState.update("token", {
-      //   accessToken: code,
-      //   refreshToken: provider,
-      // });
-      const url = `http://localhost:4000/v2/auth/exchange/?code=${code}&provider=${provider}`;
-      showPanel(context, url);
+  // TODO: Split this handler into subhandlers, and them its own folder in src/uriHandlers
+  vscode.window.registerUriHandler({
+    // Use handleUri: (uri) => {},
+    handleUri(uri: vscode.Uri) {
+      switch (uri.path) {
+        case "/sso":
+          {
+            const searchParams = new URLSearchParams(uri.query);
+            const code = searchParams.get("code");
+            const provider = searchParams.get("provider");
+            vscode.window.showInformationMessage("Authenticating...");
+            const url = `http://localhost:4000/v2/auth/exchange/?code=${code}&provider=${provider}`;
+            showPanel(context, url);
+          }
+          break;
+        case "/sharelink":
+          {
+            const hash = uri.fragment;
+            const url = `http://localhost:8000/playground${hash}`;
+            showPanel(context, url);
+          }
+          break;
+        default:
+          vscode.window.showErrorMessage(
+            `Unrecognized path in deeplink: ${uri.path}`,
+          );
+          return;
+      }
     },
   });
 }

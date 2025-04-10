@@ -14,10 +14,15 @@ let client: LanguageClient;
 const SECTION = "\u00A7";
 
 export function activateLspClient(context: ExtensionContext) {
+  console.log("Activating Source Language Server...");
   // The server is implemented in node
   const serverModule = context.asAbsolutePath(
     path.join("out", "source-lsp.js"),
   );
+  console.error("=======================");
+  console.error(serverModule);
+
+  let debugOptions = { execArgv: ["--nolazy", "--inspect=6009"] };
 
   // If the extension is launched in debug mode then the debug server options are used
   // Otherwise the run options are used
@@ -26,6 +31,7 @@ export function activateLspClient(context: ExtensionContext) {
     debug: {
       module: serverModule,
       transport: TransportKind.ipc,
+      options: debugOptions,
     },
   };
 
@@ -50,6 +56,7 @@ export function activateLspClient(context: ExtensionContext) {
 
   // Start the client. This will also launch the server
   client.start();
+  // client.sendNotification('trolling')
 
   const version = `Source ${SECTION}4`;
 

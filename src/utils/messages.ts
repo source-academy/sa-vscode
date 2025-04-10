@@ -22,6 +22,8 @@ const Messages = createMessages({
     workspaceLocation: VscWorkspaceLocation,
     assessmentName: string,
     questionId: number,
+    chapter: number,
+    prepend: string,
     code: string,
   ) => ({
     workspaceLocation,

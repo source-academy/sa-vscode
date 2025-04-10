@@ -10,8 +10,23 @@
       "type": "extensionHost",
       "request": "launch",
       "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
-      "outFiles": ["${workspaceFolder}/out/**/*.js"],
-      "preLaunchTask": "Build"
+      "outFiles": [
+        // "${workspaceFolder:sa-vscode}/out/**/*.js",
+        // "${workspaceFolder:source-lsp}/dist/**/*.js"
+        "${workspaceFolder}/out/**/*.js"
+      ],
+      "preLaunchTask": "Build",
+      "autoAttachChildProcesses": true
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to Server 6009",
+      "address": "localhost",
+      "protocol": "inspector",
+      "port": 6009,
+      "sourceMaps": true,
+      "outFiles": ["${workspaceRoot:source-lsp}/dist/**/*.js"]
     }
   ]
 }
