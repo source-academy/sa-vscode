@@ -12,6 +12,8 @@ import { setWebviewContent } from "../utils/webview";
 import config from "../utils/config";
 import { Editor } from "../utils/editor";
 import { FRONTEND_ELEMENT_ID } from "../constants";
+import { client } from "../extension";
+import _ from "lodash";
 
 let panel: vscode.WebviewPanel | null = null;
 // This needs to be a reference to active
@@ -20,6 +22,8 @@ export let activeEditor: Editor | null = null;
 
 const messageQueue: MessageType[] = [];
 let handling = false;
+
+// TODO: Remove panel and handling message logic out of the commands/ directory
 
 async function handleMessage(
   context: vscode.ExtensionContext,
@@ -43,8 +47,21 @@ async function handleMessage(
           message.workspaceLocation,
           message.assessmentName,
           message.questionId,
+          message.prepend,
           message.initialCode,
         );
+        activeEditor.uri;
+        const info = context.globalState.get("info") ?? {};
+        if (activeEditor.uri) {
+          // TODO: Write our own wrapper to set nested keys easily, removing lodash
+          // @ts-ignore
+          _.set(info, `["${activeEditor.uri}"].chapter`, message.chapter);
+          const nPrependLines = message.prepend.split("\n").length;
+          _.set(info, `["${activeEditor.uri}"].prepend`, nPrependLines);
+          context.globalState.update("info", info);
+          client.sendNotification("source/publishInfo", info);
+        }
+
         panel?.reveal(vscode.ViewColumn.Two);
         console.log(
           `EXTENSION: NewEditor: activeEditor set to ${activeEditor.assessmentName}_${activeEditor.questionId}`,

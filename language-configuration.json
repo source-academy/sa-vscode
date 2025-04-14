@@ -23,6 +23,12 @@
     { "open": "'", "close": "'" },
     { "open": "\"", "close": "\"" }
   ],
+  "folding": {
+    "markers": {
+      "start": "// PREPEND -- DO NOT EDIT",
+      "end": "// END PREPEND"
+    }
+  },
   "wordPattern": "[_$a-zA-Z][_$a-zA-Z0-9]*",
   "indentationRules": {
     "increaseIndentPattern": "^((?!\\/\\/).)*(\\{[^}\"'`]*|\\([^)\"'`]*|\\[[^\\]\"'`]*)$",

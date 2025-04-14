@@ -12,6 +12,7 @@ export class Editor {
   questionId: number;
   onChangeCallback?: (editor: Editor) => void;
   code: string | null = null;
+  uri: string | null = null;
 
   // For debugging purposes
   replaceTime: number = 0;
@@ -36,10 +37,12 @@ export class Editor {
     return this.editor?.document.getText();
   }
 
+  // TODO: This method is too loaded, it's not obvious it also shows the editor
   static async create(
     workspaceLocation: VscWorkspaceLocation,
     assessmentName: string,
     questionId: number,
+    prepend: string = "",
     initialCode: string = "",
   ): Promise<Editor> {
     const self = new Editor(workspaceLocation, assessmentName, questionId);
@@ -58,24 +61,37 @@ export class Editor {
       workspaceFolder,
       `${assessmentName}_${questionId}.js`,
     );
+
+    const uri = vscode.Uri.file(filePath);
+    self.uri = uri.toString();
+
+    const contents = [
+      "// PREPEND -- DO NOT EDIT",
+      prepend,
+      "// END PREPEND",
+      initialCode,
+    ].join("\n");
+
     await vscode.workspace.fs.readFile(vscode.Uri.file(filePath)).then(
       () => null,
       async () => {
         self.log(`Opening file failed, creating at ${filePath}`);
         await vscode.workspace.fs.writeFile(
-          vscode.Uri.file(filePath),
-          new TextEncoder().encode(initialCode),
+          uri,
+          new TextEncoder().encode(contents),
         );
       },
     );
 
-    const editor = await vscode.window.showTextDocument(
-      vscode.Uri.file(filePath),
-      {
-        preview: false,
-        viewColumn: vscode.ViewColumn.One,
-      },
+    const editor = await vscode.window.showTextDocument(uri, {
+      preview: false,
+      viewColumn: vscode.ViewColumn.One,
+    });
+    editor.selection = new vscode.Selection(
+      editor.document.positionAt(0),
+      editor.document.positionAt(1),
     );
+    vscode.commands.executeCommand("editor.fold");
 
     self.editor = editor;
     vscode.workspace.onDidChangeTextDocument(() => {

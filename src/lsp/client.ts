@@ -50,6 +50,7 @@ export function activateLspClient(context: ExtensionContext) {
 
   // Start the client. This will also launch the server
   client.start();
+  return client;
 
   // TODO: Combine this functionality with existing language selector
   // context.subscriptions.push(

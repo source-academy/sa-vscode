@@ -107,6 +107,7 @@
     "esbuild-plugin-fileloc": "^0.0.6",
     "esbuild-plugin-ignore": "^1.1.1",
     "esbuild-plugin-polyfill-node": "^0.3.0",
+    "lodash": "^4.17.21",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "vscode-languageclient": "^9.0.1"
