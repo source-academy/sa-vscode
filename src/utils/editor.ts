@@ -12,6 +12,7 @@ export class Editor {
   questionId: number;
   onChangeCallback?: (editor: Editor) => void;
   code: string | null = null;
+  uri: string | null = null;
 
   // For debugging purposes
   replaceTime: number = 0;
@@ -36,6 +37,7 @@ export class Editor {
     return this.editor?.document.getText();
   }
 
+  // TODO: This method is too loaded, it's not obvious it also shows the editor
   static async create(
     workspaceLocation: VscWorkspaceLocation,
     assessmentName: string,
@@ -57,26 +59,26 @@ export class Editor {
       workspaceFolder,
       `${assessmentName}_${questionId}.js`,
     );
+
+    const uri = vscode.Uri.file(filePath);
+    self.uri = uri.toString();
+
     await vscode.workspace.fs.readFile(vscode.Uri.file(filePath)).then(
       () => null,
       async () => {
         self.log(`Opening file failed, creating at ${filePath}`);
-        await vscode.workspace.fs.writeFile(
-          vscode.Uri.file(filePath),
-          new TextEncoder().encode(""),
-        );
+        await vscode.workspace.fs.writeFile(uri, new TextEncoder().encode(""));
       },
     );
 
-    const editor = await vscode.window.showTextDocument(
-      vscode.Uri.file(filePath),
-      {
-        preview: true,
-        viewColumn: vscode.ViewColumn.One,
-      },
-    );
+    // TODO: editor conflicts with the class Editor
+    const editor = await vscode.window.showTextDocument(uri, {
+      preview: true,
+      viewColumn: vscode.ViewColumn.One,
+    });
 
     self.editor = editor;
+    editor.document.uri.toString();
     // TODO: Restructure Editor-related code so that only active editor has listener
     vscode.workspace.onDidChangeTextDocument(() => {
       if (!self.onChangeCallback) {
